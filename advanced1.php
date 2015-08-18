@@ -1,12 +1,10 @@
 <?php
 class Deck{
 	public $cards;
-
 	public function __construct(){
 		$this->cards = array();
 		$this->cards = range(0,51);
 	}
-
 	public function Shuffle(){
 		shuffle($this->cards);
 		return $this;
@@ -22,7 +20,6 @@ class Deck{
 		$this->cards = $newDeck;
 		return array_pop($this->cards);
 	}
-	
 }
 
 class Player{
@@ -31,7 +28,6 @@ class Player{
 	public function draw($deck){
 		$cardDrawn = $deck->deal();
 		array_push($this->hand, $cardDrawn);
-		echo "card drawn: " . $cardDrawn . "<br>";
 		return $cardDrawn;
 	}
 	public function discard($index){
@@ -52,24 +48,12 @@ class Helper{
   		$array[sizeof($array)-1] = $a;
   		return $array;
 	}
+	public function cardValue($n){
+		$cardValue = array(1,2,3,4,5,6,7,8,9,10,10,10,10,
+							1,2,3,4,5,6,7,8,9,10,10,10,10,
+							1,2,3,4,5,6,7,8,9,10,10,10,10,
+							1,2,3,4,5,6,7,8,9,10,10,10,10);
+		return $cardValue[$n];
+	}
 }
-
-
-$deck = new Deck();
-$p1 = new Player();
-//draw 10 cards
-for($i=0; $i<10; $i++){
-	$p1->draw($deck);
-}
-var_dump($deck);
-var_dump($p1->hand);
-$deck->Reset();
-var_dump($deck);
-var_dump($p1->hand);
-$p1->discard(2);
-var_dump($p1->hand);
-var_dump($deck);
-$deck->Shuffle();
-var_dump($deck);
-
 ?>
