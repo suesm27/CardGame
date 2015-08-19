@@ -31,9 +31,41 @@ session_start();
 	<!-- latest compiled and minified javascript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<style>
-	.container {
+	.felt {
 		max-width: 800px;
-		background-color: green;
+		/*max-height: 500px;*/
+		background-image: url("background.jpg");
+		margin: 18px auto;
+		padding: 15px;
+		border-radius: 15px;
+	}
+	.wood {
+		background-image: url("wood.jpg");
+		background-repeat: no-repeat;
+		background-size: 840px 840px;
+		max-width: 840px;
+		/*max-height: 540px;*/
+		border-radius: 15px;
+		margin: 10px auto;
+	}
+	.btn-lg {
+		margin: 10px;
+	}
+	.btn-info {
+		display: block;
+		vertical-align: middle;
+		margin: 0 auto;
+	}
+	body {
+		color: white;
+		text-align: center;
+		margin: 0 auto;
+	}
+	.draw_stay {
+		display: inline-block;
+	}
+	img {
+		display: inline-block;
 	}
 	</style>
 </head>
@@ -46,13 +78,23 @@ session_start();
 		$_SESSION['message'] = null;
 		echo "</strong>";
 		echo "</div>";
+		session_destroy();
 	}
 	?>
-	<div class="container">
+	<div class="container wood">
+	<div class="container felt">
 		<div class = "row">
 			<form role="form" action="process.php" method="post">
 				<input type="hidden" name="action" value="start">
 				<button class="btn-primary btn-lg" type="submit">Start Game</button>
+			</form>
+			<form class="draw_stay" role="form" action="process.php" method="post">
+				<input type="hidden" name="action" value="draw">
+				<button class="btn-info" type="submit">Draw</button>
+			</form>
+			<form class="draw_stay" role="form" action="process.php" method="post">
+				<input type="hidden" name="action" value="stay">
+				<button class="btn-info" type="submit">Stay</button>
 			</form>
 		</div>
 		<div class = "row">
@@ -65,22 +107,10 @@ session_start();
 					foreach($_SESSION['p1']->hand as $card){
 						$helper = new Helper();
 						$_SESSION['p1_sum'] += $helper->cardValue($card);
-						echo "<IMG SRC='" . $card . ".png'><br>";
-						if ($_SESSION['p1_sum'] > 21)
-						{
-							$_SESSION['message'] = "Player busted.<br>";
-						}
+						echo "<IMG SRC='" . $card . ".png'>";
 					}
-					echo "Player's hand: {$_SESSION['p1_sum']}";
+					echo "<br>Player's hand: {$_SESSION['p1_sum']}";
 					?>
-					<form role="form" action="process.php" method="post">
-						<input type="hidden" name="action" value="draw">
-						<button class="btn-primary" type="submit">Draw</button>
-					</form>
-					<form role="form" action="process.php" method="post">
-						<input type="hidden" name="action" value="stay">
-						<button class="btn-primary" type="submit">Stay</button>
-					</form>
 				</div>
 				<div class="col-md-6">
 					<?php			
@@ -89,13 +119,14 @@ session_start();
 					foreach($_SESSION['p2']->hand as $card){
 						$helper = new Helper();
 						$_SESSION['p2_sum'] += $helper->cardValue($card);
-						echo "<IMG SRC='" . $card . ".png'><br>";
+						echo "<img src='" . $card . ".png'>";
 					}
-					echo "Dealer's hand: {$_SESSION['p2_sum']}";
+					echo "<br>Dealer's hand: {$_SESSION['p2_sum']}";
 				}
 				?>
 			</div>
 		</div>
+	</div>
 	</div>
 </body>
 </html>

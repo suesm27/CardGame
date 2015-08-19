@@ -6,6 +6,19 @@ session_start();
 if (isset($_POST['action']) && $_POST['action'] == 'draw')
 {
 	$_SESSION['p1']->draw($_SESSION['deck']);
+	$_SESSION['p1_sum'] = 0;
+	foreach($_SESSION['p1']->hand as $card){
+		$helper = new Helper();
+		$_SESSION['p1_sum'] += $helper->cardValue($card);
+	}
+	if ($_SESSION['p1_sum'] > 21)
+	{
+		$_SESSION['message'] = "Player busted.<br>";
+	}
+	if ($_SESSION['p1_sum'] == 21)
+	{
+		$_SESSION['message'] = "Player won!<br>";
+	}
 	header("location:index.php");
 }
 
